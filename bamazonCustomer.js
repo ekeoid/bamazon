@@ -21,7 +21,7 @@ function connect_db() {
 }
 
 function welcome() {
-    console.log("\nWELCOME TO BAMAZON\n");
+    console.log("\nWELCOME TO BAMAZON");
     buy_product();
 }
 
