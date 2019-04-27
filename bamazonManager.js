@@ -105,7 +105,59 @@ function view_lowinventory() {
 }
 
 function add_inventory() {
+    let sql = `SELECT * FROM products`;
+    connection.query(sql, function (err, result) {
+        if (err) throw err;
 
+        let table = new Table({
+            head: ['ID', 'Product Name', 'Price', 'Quantity'],
+            colWidths: [5, 40, 10, 10]
+            });
+            
+        let products = [];
+
+        for (i = 0; i < result.length; i++) {
+            table.push(
+                [ result[i].item_id, result[i].product_name, result[i].price.toFixed(2), result[i].stock_quantity ]
+            );
+            products.push(result[i].product_name);
+        }
+        console.log(table.toString());
+    
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "userItem",
+                message: "What item do you want to update? ",
+                choices: products
+            },
+            {
+                type: "prompt",
+                name: "userAmount",
+                message: "How many do you want to add? "
+                // add validate
+            }
+            ]).then( function (user) { 
+                console.log(user.userItem);
+
+                let index = products.indexOf(user.userItem);
+
+                let sql = `UPDATE products SET ? WHERE ?`;
+                let values = [{
+                        stock_quantity: result[index].stock_quantity + parseInt(user.userAmount)
+                    },{
+                        item_id: index + 1
+                    }];
+
+                connection.query(sql, values, function (err, result) {
+                    if (err) throw err;                            
+                    console.log(result.affectedRows + " products updated!\n");
+                });
+                // console.log(query.sql);
+                console.log("\nYou now have " + values[0].stock_quantity + " of " + result[index].product_name);
+
+            });
+    });
 }
 
 function add_product() {

@@ -45,7 +45,6 @@ function buy_product() {
         }
         console.log(table.toString());
 
-        //var products = [];
         inquirer.prompt([
             {
                 type: "prompt",
@@ -75,8 +74,7 @@ function buy_product() {
                             stock_quantity: result[item.id].stock_quantity - item.quantity
                         },{
                             item_id: item.id + 1
-                        }
-                    ]
+                        }];
                     // var query = connection.query(sql, values, function (err, result) {
                         connection.query(sql, values, function (err, result) {
                             if (err) throw err;                            
