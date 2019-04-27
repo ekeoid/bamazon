@@ -35,7 +35,7 @@ function buy_product() {
 
         let table = new Table({
             head: ['ID', 'Product Name', 'Price', 'Quantity'],
-            colWidths: [12, 20, 10, 10]
+            colWidths: [5, 40, 10, 10]
             });
                 
         for (i = 0; i < result.length; i++) {
