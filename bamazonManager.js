@@ -72,13 +72,13 @@ function view_products() {
         if (err) throw err;
 
         let table = new Table({
-            head: ['ID', 'Product Name', 'Price', 'Stock'],
-            colWidths: [5, 40, 10, 10]
+            head: ['ID', 'Product Name', 'Department', 'Price', 'Stock'],
+            colWidths: [5, 40, 25, 10, 10]
             });
                 
         for (i = 0; i < result.length; i++) {
             table.push(
-                [ result[i].item_id, result[i].product_name, result[i].price.toFixed(2), result[i].stock_quantity ]
+                [ result[i].item_id, result[i].product_name, result[i].department_name, result[i].price.toFixed(2), result[i].stock_quantity ]
             );
         }
         console.log(table.toString());
@@ -151,7 +151,7 @@ function add_inventory() {
 
                 connection.query(sql, values, function (err, result) {
                     if (err) throw err;                            
-                    console.log(result.affectedRows + " products updated!\n");
+                    //console.log(result.affectedRows + " products updated!\n");
                 });
                 // console.log(query.sql);
                 console.log("\nYou now have " + values[0].stock_quantity + " of " + result[index].product_name);
@@ -161,5 +161,46 @@ function add_inventory() {
 }
 
 function add_product() {
+    inquirer.prompt([
+        {
+            type: "prompt",
+            name: "itemName",
+            message: "What is the name of the item? ",
+        },
+        {
+            type: "prompt",
+            name: "itemDepartment",
+            message: "What department does this item belong? ",
+        },
+        {
+            type: "prompt",
+            name: "itemPrice",
+            message: "What is the unit price of the item? ",
+        },
+        {
+            type: "prompt",
+            name: "itemAmount",
+            message: "How many of the items do you have? "
+            // add validate
+        }
+        ]).then( function (user) { 
+            // console.log(user.userItem);
 
+            let sql = `INSERT INTO products SET ?`;
+            let values = {
+                    product_name: user.itemName,
+                    department_name: user.itemDepartment,
+                    price: parseFloat(user.itemPrice).toFixed(2),
+                    stock_quantity: parseInt(user.itemAmount)
+                };
+
+            connection.query(sql, values, function (err, result) {
+                if (err) throw err;                            
+                console.log(result.affectedRows + " products updated!\n");
+            });
+            // console.log(query.sql);
+            //console.log("\nYou now have " + values[0].stock_quantity + " of " + result[index].product_name);
+
+        });
 }
+
