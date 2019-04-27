@@ -26,6 +26,7 @@ function welcome() {
 }
 
 function display_menu() {
+    console.log("\n");
     inquirer.prompt([
         {
             type: "list",
@@ -82,6 +83,7 @@ function view_products() {
             );
         }
         console.log(table.toString());
+        display_menu();
     });
 }
 
@@ -101,7 +103,9 @@ function view_lowinventory() {
             );
         }
         console.log(table.toString());
+        display_menu();
     });
+    
 }
 
 function add_inventory() {
@@ -155,7 +159,7 @@ function add_inventory() {
                 });
                 // console.log(query.sql);
                 console.log("\nYou now have " + values[0].stock_quantity + " of " + result[index].product_name);
-
+                display_menu();
             });
     });
 }
@@ -200,7 +204,7 @@ function add_product() {
             });
             // console.log(query.sql);
             //console.log("\nYou now have " + values[0].stock_quantity + " of " + result[index].product_name);
-
+            display_menu();
         });
 }
 
