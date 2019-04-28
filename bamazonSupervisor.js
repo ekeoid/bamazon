@@ -34,7 +34,9 @@ function display_menu() {
             message: "Select Action: ",
             choices: [
                 "View Products Sales by Department",
+                "View All Departments",
                 "Create New Department",
+                "Remove Department",
                 "Exit"
             ] 
         },
@@ -46,10 +48,18 @@ function display_menu() {
                 view_sales();
                 break;
 
+            case "View All Departments":
+                view_departments();
+                break;
+
             case "Create New Department":
                 add_department();
                 break;
 
+            case "Remove Department":
+                remove_department();
+                break;
+            
             default:
                 process.exit();
         }
@@ -113,29 +123,67 @@ function add_department() {
         connection.query(sql, [user.userDepartment, user.userOverhead], function (err, result) {
             if (err) throw err;
             
-            console.log("Department was added");
-        });
-
-        let sql2 = `SELECT * FROM departments;`;
-
-        connection.query(sql2, function (err, result) {
-            if (err) throw err;
-
-            let table = new Table({
-                chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''},
-                head: ['ID', 'Department Name', 'Over Head Costs'],
-                colWidths: [5, 30, 20]
-                });
-                    
-            for (i = 0; i < result.length; i++) {
-                table.push(
-                    [ result[i].department_id, result[i].department_name, result[i].over_head_costs ]
-                );
-            }
-            console.log(table.toString());
+            console.log(user.userDepartment + " department was added...");
             display_menu();
-
         });
     });
 }
 
+function view_departments() {
+    let sql2 = `SELECT * FROM departments;`;
+
+    connection.query(sql2, function (err, result) {
+        if (err) throw err;
+
+        let table = new Table({
+            chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''},
+            head: ['ID', 'Department Name', 'Over Head Costs'],
+            colWidths: [5, 30, 20]
+            });
+                
+        for (i = 0; i < result.length; i++) {
+            table.push(
+                [ result[i].department_id, result[i].department_name, result[i].over_head_costs ]
+            );
+        }
+        console.log(table.toString());
+        display_menu();
+    });
+}
+
+function remove_department() {
+    let sql = `SELECT department_id, department_name from departments
+                ORDER BY department_name;`;
+
+    connection.query(sql, function (err, result) {
+        if (err) throw err;
+        
+        let departments = [];
+        for (let i=0; i < result.length; i++) {
+            departments.push(result[i].department_id + "- " + result[i].department_name);
+        }
+    
+        inquirer.prompt([
+            {
+                type: "list",
+                name: "userDepartment",
+                message: "What department do you want to remove? ",
+                choices: departments
+            }
+        ]).then( function (user) {
+            
+            let department = user.userDepartment.slice( user.userDepartment.indexOf("-") + 2 );
+            let index = result[departments.indexOf(department)].department_id;
+            let sql2 = `DELETE FROM departments WHERE ?`;
+            let values2 = {
+                department_id: index
+            }
+            connection.query(sql2, values2, function (err, result) {
+                if (err) throw err;                            
+                
+                console.log(result.affectedRows + " department removed!\n");
+                display_menu();
+            });
+        });
+    });
+}
