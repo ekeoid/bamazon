@@ -68,7 +68,12 @@ function display_menu() {
 
 
 function view_products() {
-    let sql = `SELECT * FROM products`;
+    //let sql = `SELECT * FROM products`;
+    let sql = `SELECT item_id, product_name, department_name, price, stock_quantity
+                FROM products
+                INNER JOIN departments
+                on products.department_id = departments.department_id;`;
+
     connection.query(sql, function (err, result) {
         if (err) throw err;
 
@@ -93,6 +98,7 @@ function view_lowinventory() {
         if (err) throw err;
 
         let table = new Table({
+            chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''},
             head: ['ID', 'Product Name', 'Stock Remaining'],
             colWidths: [5, 40, 18]
             });
@@ -114,6 +120,7 @@ function add_inventory() {
         if (err) throw err;
 
         let table = new Table({
+            chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''},
             head: ['ID', 'Product Name', 'Price', 'Quantity'],
             colWidths: [5, 40, 10, 10]
             });
@@ -165,46 +172,64 @@ function add_inventory() {
 }
 
 function add_product() {
+    let sql = `SELECT department_id, department_name from departments
+                ORDER BY department_name;`;
+
+    connection.query(sql, function (err, result) {
+        if (err) throw err;
+        
+        let departments = [];
+        for (let i=0; i < result.length; i++) {
+            departments.push(result[i].department_name);
+        }
+
+        // console.log(result);
+        // console.log(departments);
+        // console.log(departments.indexOf('Snacks'));
+        // console.log(result[departments.indexOf('Snacks')].department_id);
+    
+    
     inquirer.prompt([
         {
             type: "prompt",
             name: "itemName",
-            message: "What is the name of the item? ",
-        },
-        {
-            type: "prompt",
+            message: "What is the name of the item? "
+        },{
+            type: "list",
             name: "itemDepartment",
             message: "What department does this item belong? ",
-        },
-        {
+            choices: departments
+        },{
             type: "prompt",
             name: "itemPrice",
-            message: "What is the unit price of the item? ",
-        },
-        {
+            message: "What is the unit price of the item? "
+        },{
             type: "prompt",
             name: "itemAmount",
             message: "How many of the items do you have? "
             // add validate
         }
-        ]).then( function (user) { 
+        ]).then( function (user) {
             // console.log(user.userItem);
+            let index = result[departments.indexOf(user.itemDepartment)].department_id;
 
             let sql = `INSERT INTO products SET ?`;
             let values = {
-                    product_name: user.itemName,
-                    department_name: user.itemDepartment,
-                    price: parseFloat(user.itemPrice).toFixed(2),
-                    stock_quantity: parseInt(user.itemAmount)
-                };
-
+                product_name: user.itemName,
+                department_id: index,
+                price: parseFloat(user.itemPrice).toFixed(2),
+                stock_quantity: parseInt(user.itemAmount)
+            };
+                                
             connection.query(sql, values, function (err, result) {
                 if (err) throw err;                            
+                
                 console.log(result.affectedRows + " products updated!\n");
             });
             // console.log(query.sql);
             //console.log("\nYou now have " + values[0].stock_quantity + " of " + result[index].product_name);
             display_menu();
         });
+    });
 }
 

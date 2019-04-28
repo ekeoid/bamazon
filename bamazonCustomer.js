@@ -34,6 +34,7 @@ function buy_product() {
         //console.log("\n");
 
         let table = new Table({
+            chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''},
             head: ['ID', 'Product Name', 'Price', 'Quantity'],
             colWidths: [5, 40, 10, 10]
             });
