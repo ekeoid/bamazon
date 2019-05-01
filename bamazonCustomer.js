@@ -72,7 +72,8 @@ function buy_product() {
                         
                         let sql = `UPDATE products SET ? WHERE ?`;
                         let values = [{
-                            stock_quantity: result[item.id].stock_quantity - item.quantity
+                            stock_quantity: result[item.id].stock_quantity - item.quantity,
+                            product_sales: result[item.id].price * item.quantity 
                         },{
                             item_id: item.id + 1
                         }];

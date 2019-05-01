@@ -7,47 +7,6 @@ USE bamazon;
 CREATE TABLE products (
     item_id INT NOT NULL AUTO_INCREMENT,
     product_name VARCHAR(45) NULL,
-    department_name VARCHAR(45) NULL,
-    price DECIMAL(10,2) NULL,
-    stock_quantity INT NULL,
-    product_sales DECIMAL(10,2) DEFAULT 0,
-    PRIMARY KEY (item_id),
-);
-
--- FOREIGN KEY (department_id) REFERENCES departments(department_id) -- 
-
-CREATE TABLE departments (
-    department_id INT NOT NULL AUTO_INCREMENT,
-    department_name VARCHAR(45) NULL,
-    over_head_costs DECIMAL(10,2) NULL,
-    PRIMARY KEY (department_id),
-);
-
-INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ('CheezIt', "Snacks", 4.00, 10);
-
-INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ('Doritos', "Snacks", 2.00, 5);
-
-INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ('Pretzels', "Snacks", 2.00, 6);
-
-INSERT INTO products (product_name, department_name, price, stock_quantity)
-VALUES ('Oreos', "Snacks", 3.00, 7);
-
-
--- NOTES --
-
-
-DROP DATABASE IF EXISTS bamazon;
-
-CREATE DATABASE bamazon;
-
-USE bamazon;
-
-CREATE TABLE products (
-    item_id INT NOT NULL AUTO_INCREMENT,
-    product_name VARCHAR(45) NULL,
     department_id INT NULL,
     price DECIMAL(10,2) NULL,
     stock_quantity INT NULL,
@@ -68,46 +27,44 @@ ADD FOREIGN KEY (department_id) REFERENCES departments(department_id);
 INSERT INTO departments (department_name)
 VALUES ('Snacks'), ('Beverage'), ('Baking'), ('Dessert');
 
-INSERT INTO products (product_name, department_id, price, stock_quantity)
-VALUES ('CheezIt', 1, 4.00, 10);
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('CheezIt', 1, 4.00, 30, 0);
 
-INSERT INTO products (product_name, department_id, price, stock_quantity)
-VALUES ('Doritos', 1, 2.00, 4);
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Doritos', 1, 2.00, 40, 0);
 
-INSERT INTO products (product_name, department_id, price, stock_quantity)
-VALUES ('Pretzels', 1, 2.00, 6);
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Pretzels', 1, 2.00, 60, 0);
 
-INSERT INTO products (product_name, department_id, price, stock_quantity)
-VALUES ('Oreos', 1, 3.00, 7);
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Oreos', 1, 3.00, 25, 0);
 
-INSERT INTO products (product_name, department_id, price, stock_quantity)
-VALUES ('Pepsi', 2, 1.00, 25);
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Pepsi', 2, 1.00, 25, 0);
 
-UPDATE products SET product_sales = 100
-WHERE item_id = 1;
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Rice Crispies', 1, 1.50, 50, 0);
 
-UPDATE products SET product_sales = 150
-WHERE item_id = 2;
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Coca Cola', 2, 1.00, 30, 0);
 
-UPDATE products SET product_sales = 170
-WHERE item_id = 3;
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Cookies', 3, 1.25, 100, 0);
 
-UPDATE products SET product_sales = 200
-WHERE item_id = 4;
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Cake', 4, 12.00, 10, 0);
 
-UPDATE products SET product_sales = 125
-WHERE item_id = 5;
 
-UPDATE departments SET over_head_costs = 300
+UPDATE departments SET over_head_costs = 50
 WHERE department_id = 1;
 
-UPDATE departments SET over_head_costs = 300
+UPDATE departments SET over_head_costs = 50
 WHERE department_id = 2;
 
-UPDATE departments SET over_head_costs = 300
+UPDATE departments SET over_head_costs = 80
 WHERE department_id = 3;
 
-UPDATE departments SET over_head_costs = 300
+UPDATE departments SET over_head_costs = 100
 WHERE department_id = 4;
 
 
