@@ -36,6 +36,20 @@ Since this is a basic app, the items in to store are predefined with 10 items. T
 
 ### Usage
 
+##### Customer View
+
+![customer-view](readme/customer-view-640.gif)
+
+
+
+##### Manager View
+
+![manager-view](readme/manager-view-640.gif)
+
+##### Supervisor View
+
+![supervisor-view](readme/supervisor-view-640.gif)
+
 ### Design
 
 For the database design, since we include customer, manager, and supervisor views, multiple tables are related. The `products` table references the `departments` table by `department_id`. A `foreign key` is added to secure the relationship.

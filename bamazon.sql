@@ -54,6 +54,9 @@ VALUES ('Cookies', 3, 1.25, 100, 0);
 INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
 VALUES ('Cake', 4, 12.00, 10, 0);
 
+INSERT INTO products (product_name, department_id, price, stock_quantity, product_sales)
+VALUES ('Snickers', 1, 0.50, 500, 0);
+
 
 UPDATE departments SET over_head_costs = 50
 WHERE department_id = 1;

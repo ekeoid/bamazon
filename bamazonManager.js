@@ -80,6 +80,7 @@ function view_products() {
         if (err) throw err;
 
         let table = new Table({
+            chars: {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''},
             head: ['ID', 'Product Name', 'Department', 'Price', 'Stock'],
             colWidths: [5, 40, 25, 10, 10]
             });

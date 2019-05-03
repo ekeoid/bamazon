@@ -175,7 +175,7 @@ function remove_department() {
         ]).then( function (user) {
             
             let department = user.userDepartment.slice( user.userDepartment.indexOf("-") + 2 );
-            let index = result[departments.indexOf(department)].department_id;
+            let index = result[departments.indexOf(user.userDepartment)].department_id;
             let sql2 = `DELETE FROM departments WHERE ?`;
             let values2 = {
                 department_id: index
