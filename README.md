@@ -15,6 +15,7 @@ Since this is a basic app, the items in to store are predefined with 10 items. T
 
 - Node.JS [`runtime`](https://nodejs.org/en/docs/)
 - MySQL [`database`](https://dev.mysql.com/doc/) [`npm-package`](https://www.npmjs.com/package/mysql)
+- Inquirer [`npm-package`](https://www.npmjs.com/package/inquirer)
 - cli-table [`npm-package`](https://www.npmjs.com/package/cli-table)
 - dot-env [`npm-package`](https://www.npmjs.com/package/dot-env)
 
