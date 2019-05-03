@@ -12,9 +12,6 @@ var connection = mysql.createConnection({
     database: process.env.DB_DATABASE
 });
 
-console.log(connection);
-console.log(process.env.DB_DATABASE);
-
 connect_db();
 welcome();
 
